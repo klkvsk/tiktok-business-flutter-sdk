@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await TiktokBusinessFlutterSdk.platformVersion, '42');
+    expect(await TikTokBusinessFlutterSdk.apiAvailableVersion, '42');
   });
 }

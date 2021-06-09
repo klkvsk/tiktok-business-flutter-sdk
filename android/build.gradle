@@ -16,6 +16,8 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' } // add this line!!
     }
 }
 
@@ -33,5 +35,5 @@ android {
 }
 
 dependencies {
-
+    implementation 'com.github.bytedance:tiktok-business-android-sdk:1.1.0' // replace the version with the one which suits your need
 }

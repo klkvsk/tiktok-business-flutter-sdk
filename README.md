@@ -1,15 +1,8 @@
-# tiktok_business_flutter_sdk
+# [Unofficial flutter plugin] TikTok Business Mobile SDK for Reporting App Events
 
-flutter wrapper for tiktok business sdk
+A simple wrapper over TikTok's native SDKs:
+- Android: https://github.com/bytedance/tiktok-business-android-sdk
+- iOS: https://github.com/bytedance/tiktok-business-ios-sdk
 
-## Getting Started
-
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+This probably will not be updated by me to keep up with the original SDKs,
+so maintainers are welcome.

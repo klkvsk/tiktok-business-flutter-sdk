@@ -9,6 +9,8 @@ import com.tiktok.TikTokBusinessSdk;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -37,46 +39,17 @@ public class TiktokBusinessFlutterSdkPlugin implements FlutterPlugin, MethodCall
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
 
         switch (call.method) {
-            case "clearAll":
-                TikTokBusinessSdk.clearAll();
-                result.success(null);
-                break;
-
-            case "destroy":
-                TikTokBusinessSdk.destroy();
-                result.success(null);
-                break;
-
             case "flush":
                 TikTokBusinessSdk.flush();
                 result.success(null);
                 break;
 
-            case "getAccessToken":
-                String accessToken = TikTokBusinessSdk.getAccessToken();
-                result.success(accessToken);
-                break;
-
             case "updateAccessToken":
                 String newAccessToken = call.argument("accessToken");
-                TikTokBusinessSdk.updateAccessToken(newAccessToken);
+                if (newAccessToken != null) {
+                    TikTokBusinessSdk.updateAccessToken(newAccessToken);
+                }
                 result.success(null);
-                break;
-
-            case "getApiAvailableVersion":
-                String apiAvailableVersion = TikTokBusinessSdk.getApiAvailableVersion();
-                result.success(apiAvailableVersion);
-                break;
-
-            case "setApiAvailableVersion":
-                String version = call.argument("version");
-                TikTokBusinessSdk.setApiAvailableVersion(version);
-                result.success(null);
-                break;
-
-            case "getAppId":
-                String appId = TikTokBusinessSdk.getAppId();
-                result.success(appId);
                 break;
 
             case "initializeSdk":
@@ -91,78 +64,66 @@ public class TiktokBusinessFlutterSdkPlugin implements FlutterPlugin, MethodCall
                 TikTokBusinessSdk.TTConfig ttConfig = new TikTokBusinessSdk.TTConfig(context);
                 ttConfig.setAppId((String) call.argument("appId"));
                 ttConfig.setAccessToken((String) call.argument("accessToken"));
-                ttConfig.setLogLevel(TikTokBusinessSdk.LogLevel.valueOf("NONE"));
-                if ((boolean) call.argument("disableAdvertiserIDCollection")) {
-                    ttConfig.disableAdvertiserIDCollection();
+
+                String logLevel = call.argument("logLevel");
+                TikTokBusinessSdk.LogLevel ttLogLevel = null;
+                if (logLevel != null) {
+                    switch (logLevel) {
+                        case "INFO":
+                            ttLogLevel = TikTokBusinessSdk.LogLevel.INFO;
+                            break;
+                        case "WARN":
+                            ttLogLevel = TikTokBusinessSdk.LogLevel.WARN;
+                            break;
+                        case "DEBUG":
+                            ttLogLevel = TikTokBusinessSdk.LogLevel.DEBUG;
+                            break;
+                        case "NONE":
+                            ttLogLevel = TikTokBusinessSdk.LogLevel.NONE;
+                            break;
+                    }
                 }
-                if ((boolean) call.argument("disableAutoEvents")) {
-                    ttConfig.disableAutoEvents();
+                if (ttLogLevel == null) {
+                    ttLogLevel = TikTokBusinessSdk.LogLevel.INFO;
                 }
-                if ((boolean) call.argument("disableAutoStart")) {
-                    ttConfig.disableAutoStart();
-                }
-                if ((boolean) call.argument("disableInstallLogging")) {
-                    ttConfig.disableInstallLogging();
-                }
-                if ((boolean) call.argument("disableLaunchLogging")) {
-                    ttConfig.disableLaunchLogging();
-                }
-                if ((boolean) call.argument("disableRetentionLogging")) {
-                    ttConfig.disableRetentionLogging();
+
+                ttConfig.setLogLevel(ttLogLevel);
+
+                HashMap<String, Object> androidProps = call.argument("android");
+
+                if (androidProps != null) {
+                    Object disableAdvertiserIDCollection = androidProps.get("disableAdvertiserIDCollection");
+                    if (disableAdvertiserIDCollection instanceof Boolean && (Boolean) disableAdvertiserIDCollection) {
+                        ttConfig.disableAdvertiserIDCollection();
+                    }
+                    Object disableAutoEvents = androidProps.get("disableAutoEvents");
+                    if (disableAutoEvents != null && (Boolean) disableAutoEvents) {
+                        ttConfig.disableAutoEvents();
+                    }
+                    Object disableAutoStart = androidProps.get("disableAutoStart");
+                    if (disableAutoStart != null && (Boolean) disableAutoStart) {
+                        ttConfig.disableAutoStart();
+                    }
+                    Object disableInstallLogging = androidProps.get("disableInstallLogging");
+                    if (disableInstallLogging != null && (Boolean) disableInstallLogging) {
+                        ttConfig.disableInstallLogging();
+                    }
+                    Object disableLaunchLogging = androidProps.get("disableLaunchLogging");
+                    if (disableLaunchLogging != null && (Boolean) disableLaunchLogging) {
+                        ttConfig.disableLaunchLogging();
+                    }
+                    Object disableRetentionLogging = androidProps.get("disableRetentionLogging");
+                    if (disableRetentionLogging != null && (Boolean) disableRetentionLogging) {
+                        ttConfig.disableRetentionLogging();
+                    }
                 }
 
                 TikTokBusinessSdk.initializeSdk(ttConfig);
                 result.success(null);
                 break;
 
-            case "getLogLevel":
-                TikTokBusinessSdk.LogLevel logLevel = TikTokBusinessSdk.getLogLevel();
-                result.success(logLevel.name());
-                break;
-
             case "startTrack":
                 TikTokBusinessSdk.startTrack();
-                result.success(null);
-                break;
-
-            case "getNetworkSwitch":
-                boolean networkSwitch = TikTokBusinessSdk.getNetworkSwitch();
-                result.success(networkSwitch);
-                break;
-
-            case "isGlobalConfigFetched":
-                boolean isGlobalConfigFetched = TikTokBusinessSdk.isGlobalConfigFetched();
-                result.success(isGlobalConfigFetched);
-                break;
-
-            case "setGlobalConfigFetched":
-                TikTokBusinessSdk.setGlobalConfigFetched();
-                result.success(null);
-                break;
-
-            case "isGaidCollectionEnabled":
-                boolean isGaidCollectionEnabled = TikTokBusinessSdk.isGaidCollectionEnabled();
-                result.success(isGaidCollectionEnabled);
-                break;
-
-            case "isInitialized":
-                boolean isInitialized = TikTokBusinessSdk.isInitialized();
-                result.success(isInitialized);
-                break;
-
-            case "isSystemActivated":
-                boolean isSystemActivated = TikTokBusinessSdk.isSystemActivated();
-                result.success(isSystemActivated);
-                break;
-
-            case "getSdkGlobalSwitch":
-                boolean sdkGlobalSwitch = TikTokBusinessSdk.getSdkGlobalSwitch();
-                result.success(sdkGlobalSwitch);
-                break;
-
-            case "setSdkGlobalSwitch":
-                Boolean newSdkGlobalSwitch = call.argument("sdkGlobalSwitch");
-                TikTokBusinessSdk.setSdkGlobalSwitch(newSdkGlobalSwitch);
                 result.success(null);
                 break;
 

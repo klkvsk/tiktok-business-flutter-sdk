@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:tiktok_business_flutter_sdk/tiktok_business_flutter_sdk.dart';
 
 void main() {
@@ -29,24 +28,12 @@ class _MyAppState extends State<MyApp> {
         accessToken: 'access_token',
         logLevel: TikTokBusinessFlutterSdk.LOG_LEVEL_DEBUG);
 
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    String info;
-    try {
-      info = 'App ID = ' +
-          (await TikTokBusinessFlutterSdk.appId) +
-          "\n" +
-          'Activated = ' +
-          (await TikTokBusinessFlutterSdk.isSystemActivated).toString() +
-          "\n" +
-          'Initialized = ' +
-          (await TikTokBusinessFlutterSdk.isInitialized).toString() +
-          "\n" +
-          'Global Config Fetched = ' +
-          (await TikTokBusinessFlutterSdk.isGlobalConfigFetched).toString() +
-          "\n";
-    } on PlatformException {
-      info = 'Failed to call native library.';
-    }
+    TikTokBusinessFlutterSdk.trackEvent('simpleEventTest');
+    TikTokBusinessFlutterSdk.trackEvent('parametrizedEventTest', {
+      'name': 'John',
+      'age': 25,
+      'verified': true,
+    });
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -54,7 +41,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _debugInfo = info;
+      _debugInfo = "ALL OK";
     });
   }
 

@@ -35,7 +35,7 @@
         }
         
         [config setLogLevel:ttLogLevel];
-        
+
         NSDictionary* iosProps = call.arguments[@"ios"];
         if (iosProps != nil) {
             NSNumber* disableTracking = iosProps[@"disableTracking"];
@@ -73,7 +73,7 @@
                 [config disableAppTrackingDialog];
             }
             
-            NSNumber* disableSKAdNetworkSupport = iosProps[@"disableAppTrackingDialog"];
+            NSNumber* disableSKAdNetworkSupport = iosProps[@"disableSKAdNetworkSupport"];
             if (disableSKAdNetworkSupport != nil && [disableSKAdNetworkSupport boolValue]) {
                 [config disableSKAdNetworkSupport];
             }

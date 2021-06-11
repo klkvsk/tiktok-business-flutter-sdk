@@ -51,6 +51,16 @@ class TikTokBusinessFlutterSdk {
     bool android_disableInstallLogging = false,
     bool android_disableLaunchLogging = false,
     bool android_disableRetentionLogging = false,
+    bool ios_disableTracking = false,
+    bool ios_disableLaunchTracking = false,
+    bool ios_disableInstallTracking = false,
+    bool ios_disableAutomaticTracking = false,
+    bool ios_disableRetentionTracking = false,
+    bool ios_disablePaymentTracking = false,
+    bool ios_disableAppTrackingDialog = false,
+    bool ios_disableSKAdNetworkSupport = false,
+    String ios_customUserAgent = null,
+    int ios_delayForATTUserAuthorizationInSeconds = null,
   }) async {
     await _channel.invokeMethod("initializeSdk", {
       'appId': appId,
@@ -65,9 +75,18 @@ class TikTokBusinessFlutterSdk {
         'disableRetentionLogging': android_disableRetentionLogging,
       },
       'ios': {
-
+        'disableTracking': ios_disableTracking,
+        'disableLaunchTracking': ios_disableLaunchTracking,
+        'disableInstallTracking': ios_disableInstallTracking,
+        'disableAutomaticTracking': ios_disableAutomaticTracking,
+        'disableRetentionTracking': ios_disableRetentionTracking,
+        'disablePaymentTracking': ios_disablePaymentTracking,
+        'disableAppTrackingDialog': ios_disableAppTrackingDialog,
+        'disableSKAdNetworkSupport': ios_disableSKAdNetworkSupport,
+        'ios_customUserAgent': ios_customUserAgent,
+        'ios_delayForATTUserAuthorizationInSeconds':
+            ios_delayForATTUserAuthorizationInSeconds,
       }
-
     });
   }
 
